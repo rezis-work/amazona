@@ -1,25 +1,25 @@
+import Container from "./components/Container";
+import Footer from "./components/Footer";
+import ListProducts from "./components/ListProducts";
+import Navbar from "./components/Navbar";
+import Row from "./components/Row";
 import { sampleProducts } from "./data";
 function App() {
   return (
-    <div className="">
-      <header className=" flex justify-center mb-10">
-        <h1 className=" text-3xl">AMAZONA</h1>
+    <div className=" flex flex-col h-full">
+      <header className="">
+        <Navbar />
       </header>
-      <main className=" flex justify-center">
-        <ul className="">
-          {sampleProducts.map((product) => (
-            <li
-              key={product.slug}
-              className=" mb-10 flex flex-col justify-center items-center gap-2"
-            >
-              <img className="" src={product.image} alt={product.name} />
-              <h2 className="">{product.name}</h2>
-              <p className="">{product.price}$</p>
-            </li>
-          ))}
-        </ul>
+      <main className="">
+        <Container>
+          <Row>
+            <ListProducts products={sampleProducts} />
+          </Row>
+        </Container>
       </main>
-      <footer className="">ALL rights reserved</footer>
+      <footer className="">
+        <Footer />
+      </footer>
     </div>
   );
 }
