@@ -14,7 +14,7 @@ export default function HomePage() {
       {isLoading ? (
         <LoadingBox />
       ) : error ? (
-        <MessageBox>{getError(error as ApiError)}</MessageBox>
+        <MessageBox>{getError(error as unknown as ApiError)}</MessageBox>
       ) : (
         <Row>
           <Helmet>
