@@ -3,6 +3,7 @@ export declare type ApiError = {
   response: {
     data: {
       message: string;
+      error: string;
     };
   };
 };
