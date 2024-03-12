@@ -6,6 +6,7 @@ export default {
       colors: {
         primaryColor: "#343a40",
         textPrimary: "#f1f3f5",
+        ratingColor: "#ffc000",
       },
     },
   },
