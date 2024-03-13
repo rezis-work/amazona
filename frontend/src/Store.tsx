@@ -1,6 +1,8 @@
 import React from "react";
+import { Cart, CartItem } from "./types/Cart";
 type AppState = {
   mode: string;
+  cart: Cart;
 };
 
 const initialState: AppState = {
@@ -10,14 +12,54 @@ const initialState: AppState = {
       window.matchMedia("(prefers-color-schema: dark)").matches
     ? "dark"
     : "light",
+  cart: {
+    cartItems: localStorage.getItem("cartItems")
+      ? JSON.parse(localStorage.getItem("cartItems")!)
+      : [],
+    shippingAddress: localStorage.getItem("shippingAddress")
+      ? JSON.parse(localStorage.getItem("shippingAddress")!)
+      : {
+          fullName: "",
+          address: "",
+          postalCode: "",
+          city: "",
+          country: "",
+        },
+    paymentMethod: localStorage.getItem("paymentMethod")
+      ? localStorage.getItem("paymentMethod")!
+      : "Paypal",
+    itemsPrice: 0,
+    shippingPrice: 0,
+    taxPrice: 0,
+    totalPrice: 0,
+  },
 };
 
-type Action = { type: `SWICH_MODE` };
+type Action =
+  | { type: `SWITCH_MODE` }
+  | { type: "CART_ADD_ITEM"; payload: CartItem };
 
 function reducer(state: AppState, action: Action): AppState {
   switch (action.type) {
-    case "SWICH_MODE":
-      return { mode: state.mode === "dark" ? "light" : "dark" };
+    case "SWITCH_MODE":
+      return { ...state, mode: state.mode === "dark" ? "light" : "dark" };
+    case "CART_ADD_ITEM":
+      // eslint-disable-next-line no-case-declarations
+      const newItem = action.payload;
+      // eslint-disable-next-line no-case-declarations
+      const existItem = state.cart.cartItems.find(
+        (item: CartItem) => item._id === newItem._id
+      );
+      // eslint-disable-next-line no-case-declarations
+      const cartItems = existItem
+        ? state.cart.cartItems.map((item: CartItem) =>
+            item._id === existItem._id ? newItem : item
+          )
+        : [...state.cart.cartItems, newItem];
+
+      localStorage.setItem("cartItems", JSON.stringify(cartItems));
+
+      return { ...state, cart: { ...state.cart, cartItems } };
     default:
       return state;
   }
@@ -30,7 +72,7 @@ const Store = React.createContext({
   dispatch: defaultDispatch,
 });
 
-function StoreProvider(props: React.PropsWithChildren<{}>) {
+function StoreProvider(props: React.PropsWithChildren<object>) {
   const [state, dispatch] = React.useReducer<React.Reducer<AppState, Action>>(
     reducer,
     initialState

@@ -6,7 +6,7 @@ import { useContext, useEffect } from "react";
 import { Store } from "./Store";
 function App() {
   const {
-    state: { mode },
+    state: { mode, cart },
     dispatch,
   } = useContext(Store);
 
@@ -23,7 +23,7 @@ function App() {
 
   const switchModeHandler = () => {
     const newMode = mode === "dark" ? "light" : "dark";
-    dispatch({ type: "SWICH_MODE" });
+    dispatch({ type: "SWITCH_MODE" });
     // It's also good practice to ensure the new mode is immediately applied
     // in case there are any asynchronous delays with state updates
     document.body.style.backgroundColor =
@@ -34,7 +34,7 @@ function App() {
   return (
     <div className=" flex flex-col h-full">
       <header className="">
-        <Navbar modeHandle={switchModeHandler} mode={mode} />
+        <Navbar modeHandle={switchModeHandler} mode={mode} cart={cart} />
       </header>
       <main className="">
         <Container>
