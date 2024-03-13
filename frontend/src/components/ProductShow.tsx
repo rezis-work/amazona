@@ -33,7 +33,7 @@ export default function ProductShow({ product }: ProductProps) {
   };
 
   return (
-    <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 mt-6 pt-14">
+    <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 mt-6">
       <div className="flex flex-col md:flex-row -mx-4">
         <div className="md:flex-1 px-4">
           <div className=" h-64 md:h-80 rounded-lg bg-white mb-4 flex justify-center items-start">

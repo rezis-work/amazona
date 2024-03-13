@@ -32,12 +32,18 @@ export default function Navbar({ modeHandle, mode, cart }: NavProps) {
     };
   }, [isMenuOpen]);
 
+  const closeMenu = () => {
+    setIsMenuOpen(false);
+  };
+
   return (
     <div
       className={`bg-primaryColor text-textPrimary py-3 px-3 xl:px-32 flex justify-between items-center top-0 z-50 fixed w-full ${opacity} transition-opacity duration-300`}
     >
       <h1 className="">
-        <Link to={"/"}>AMAZONA</Link>
+        <Link onClick={closeMenu} to={"/"}>
+          AMAZONA
+        </Link>
       </h1>
       <div className=" md:hidden cursor-pointer">
         <button onClick={() => setIsMenuOpen((cur) => !cur)}>
@@ -53,7 +59,10 @@ export default function Navbar({ modeHandle, mode, cart }: NavProps) {
           <i className="fa fa-times"></i>
         </button>
         <button
-          onClick={modeHandle}
+          onClick={() => {
+            modeHandle();
+            closeMenu();
+          }}
           className="px-2 bg-textPrimary text-primaryColor rounded-md"
         >
           {mode === "light" ? (
@@ -62,7 +71,11 @@ export default function Navbar({ modeHandle, mode, cart }: NavProps) {
             <i className="fa fa-moon"></i>
           )}
         </button>
-        <Link to="/cart" className="hover:text-gray-500 flex items-center">
+        <Link
+          to="/cart"
+          onClick={closeMenu}
+          className="hover:text-gray-500 flex items-center"
+        >
           Cart
           {cart.cartItems.length > 0 && (
             <span className="ml-2 rounded-full bg-red-500 px-2 py-1 text-xs">
@@ -70,10 +83,10 @@ export default function Navbar({ modeHandle, mode, cart }: NavProps) {
             </span>
           )}
         </Link>
-        <Link to="/shop" className="hover:text-gray-500">
+        <Link to="/shop" onClick={close} className="hover:text-gray-500">
           Shop
         </Link>
-        <Link to="/signin" className="hover:text-gray-500">
+        <Link to="/signin" onClick={closeMenu} className="hover:text-gray-500">
           Signin
         </Link>
       </div>
