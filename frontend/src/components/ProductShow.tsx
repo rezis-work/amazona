@@ -65,7 +65,7 @@ export default function ProductShow({ product }: ProductProps) {
               </div>
             </div>
             <div className="flex-1">
-              <p className="text-green-500 text-xl font-semibold mb-2">
+              <div className="text-green-500 text-xl font-semibold mb-2">
                 {product.countInStock ? (
                   <p className=" flex items-center gap-3">
                     <span className=" bg-green-500 rounded-lg text-white text-sm py-[0.5px] px-2">
@@ -76,7 +76,7 @@ export default function ProductShow({ product }: ProductProps) {
                 ) : (
                   <p className=" text-red-500">Unnavable</p>
                 )}
-              </p>
+              </div>
               <p className="text-gray-400 text-sm">
                 Ships from and sold by{" "}
                 <a href="#" className="text-indigo-600 hover:underline">
@@ -94,7 +94,7 @@ export default function ProductShow({ product }: ProductProps) {
           <div className="p-6 rounded-lg bg-gray-100">
             <div className="flex justify-between items-center flex-col gap-5">
               <span className="text-xl font-bold text-gray-700">
-                Grab Your new {product.name.substring(0, 15)}
+                Grab Your new {product.name}
               </span>
               <button className="px-6 py-2 text-white bg-indigo-600 rounded-lg hover:bg-indigo-500">
                 Add to Cart
