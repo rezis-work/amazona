@@ -24,6 +24,14 @@ export default function Navbar({ modeHandle, mode, cart }: NavProps) {
     return () => window.removeEventListener("scroll", handleScroll);
   }, []);
 
+  useEffect(() => {
+    document.body.style.overflow = isMenuOpen ? "hidden" : "auto";
+
+    return () => {
+      document.body.style.overflow = "auto";
+    };
+  }, [isMenuOpen]);
+
   return (
     <div
       className={`bg-primaryColor text-textPrimary py-3 px-3 xl:px-32 flex justify-between items-center top-0 z-50 fixed w-full ${opacity} transition-opacity duration-300`}
