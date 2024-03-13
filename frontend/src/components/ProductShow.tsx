@@ -1,14 +1,39 @@
 import { Product } from "../types/Product";
-import { useState } from "react";
+import { useContext, useState } from "react";
 import Rating from "./Rating";
+import { useNavigate } from "react-router-dom";
+import { convertProductToCartItem } from "../utils";
+import { Store } from "../Store";
+import { toast } from "react-toastify";
 interface ProductProps {
   product: Product;
 }
 
 export default function ProductShow({ product }: ProductProps) {
   const [currentImage, setCurrentImage] = useState(product.image);
+
+  const { state, dispatch } = useContext(Store);
+  const { cart } = state;
+
+  const navigate = useNavigate();
+
+  const addToCartHandler = () => {
+    const existItem = cart.cartItems.find((x) => x._id === product!._id);
+    const quantity = existItem ? existItem.quantity + 1 : 1;
+    if (product!.countInStock < quantity) {
+      toast.warn("Sorry. Product is out of stock");
+      return;
+    }
+    dispatch({
+      type: "CART_ADD_ITEM",
+      payload: { ...convertProductToCartItem(product!), quantity },
+    });
+    toast.success("Product added to the cart");
+    navigate("/cart");
+  };
+
   return (
-    <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 mt-6">
+    <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 mt-6 pt-14">
       <div className="flex flex-col md:flex-row -mx-4">
         <div className="md:flex-1 px-4">
           <div className=" h-64 md:h-80 rounded-lg bg-white mb-4 flex justify-center items-start">
@@ -96,7 +121,10 @@ export default function ProductShow({ product }: ProductProps) {
               <span className="text-xl font-bold text-gray-700">
                 Grab Your new {product.name}
               </span>
-              <button className="px-6 py-2 text-white bg-indigo-600 rounded-lg hover:bg-indigo-500">
+              <button
+                onClick={addToCartHandler}
+                className="px-6 py-2 text-white bg-indigo-600 rounded-lg hover:bg-indigo-500"
+              >
                 Add to Cart
               </button>
             </div>

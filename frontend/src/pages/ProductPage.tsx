@@ -3,9 +3,9 @@ import { useParams } from "react-router-dom";
 import { useGetProductDetailsBySlugQuery } from "../hooks/productHooks";
 import LoadingBox from "../components/LoadingBox";
 import MessageBox from "../components/MessageBox";
-import { getError } from "../utils";
 import { ApiError } from "../types/ApiError";
 import ProductShow from "../components/ProductShow";
+import { getError } from "../utils";
 
 export default function ProductPage() {
   const params = useParams();
@@ -16,6 +16,7 @@ export default function ProductPage() {
     isLoading,
     error,
   } = useGetProductDetailsBySlugQuery(slug!);
+
   return (
     <>
       {isLoading ? (
