@@ -18,7 +18,7 @@ export default function HomePage() {
       ) : (
         <Row>
           <Helmet>
-            <title>Amazona</title>
+            <title>Famazona</title>
           </Helmet>
           <ListProducts products={products!} />
         </Row>

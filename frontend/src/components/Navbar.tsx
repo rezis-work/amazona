@@ -42,7 +42,7 @@ export default function Navbar({ modeHandle, mode, cart }: NavProps) {
     >
       <h1 className="">
         <Link onClick={closeMenu} to={"/"}>
-          AMAZONA
+          FAMAZONA
         </Link>
       </h1>
       <div className=" md:hidden cursor-pointer">

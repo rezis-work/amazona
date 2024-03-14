@@ -28,7 +28,7 @@ export default function ProductPage() {
       ) : (
         <div>
           <Helmet>
-            <title>Amazona Products</title>
+            <title>Famazona Products</title>
           </Helmet>
           <ProductShow product={product} />
         </div>
