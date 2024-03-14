@@ -1,6 +1,8 @@
 import { Link } from "react-router-dom";
 import { Cart } from "../types/Cart";
 import { useState, useEffect } from "react";
+import { useContext } from "react";
+import { Store } from "../Store";
 
 interface NavProps {
   mode: string;
@@ -11,7 +13,11 @@ interface NavProps {
 export default function Navbar({ modeHandle, mode, cart }: NavProps) {
   const [opacity, setOpacity] = useState("bg-opacity-100");
   const [isMenuOpen, setIsMenuOpen] = useState(false);
+  const [isUserDropdownOpen, setIsUserDropdownOpen] = useState(false);
+  const { state, dispatch } = useContext(Store);
+  const { userInfo } = state;
 
+  console.log(userInfo);
   useEffect(() => {
     const handleScroll = () => {
       const scrollOpacity =
@@ -34,6 +40,19 @@ export default function Navbar({ modeHandle, mode, cart }: NavProps) {
 
   const closeMenu = () => {
     setIsMenuOpen(false);
+  };
+
+  const toggleUserDropdown = () => {
+    setIsUserDropdownOpen((prev) => !prev);
+  };
+
+  const signOutHandler = () => {
+    dispatch({ type: "USER_SIGNOUT" });
+    localStorage.removeItem("userInfo");
+    localStorage.removeItem("cartItems");
+    localStorage.removeItem("shippingAddress");
+    localStorage.removeItem("paymentMethod");
+    window.location.href = "/signin";
   };
 
   return (
@@ -86,9 +105,44 @@ export default function Navbar({ modeHandle, mode, cart }: NavProps) {
         <Link to="/shop" onClick={close} className="hover:text-gray-500">
           Shop
         </Link>
-        <Link to="/signin" onClick={closeMenu} className="hover:text-gray-500">
-          Signin
-        </Link>
+        {userInfo ? (
+          <div className="relative">
+            <button
+              onClick={toggleUserDropdown}
+              className="hover:text-gray-500"
+            >
+              {userInfo.name}
+            </button>
+            {isUserDropdownOpen && (
+              <div className="absolute right-0 mt-2 w-48 bg-white shadow-lg rounded-md py-1">
+                <Link
+                  to="/profile"
+                  onClick={closeMenu}
+                  className="block px-4 py-2 hover:bg-gray-100"
+                >
+                  Profile
+                </Link>
+                <Link
+                  to="/signin"
+                  onClick={() => {
+                    closeMenu(), signOutHandler();
+                  }}
+                  className="block px-4 py-2 hover:bg-gray-100"
+                >
+                  Sign Out
+                </Link>
+              </div>
+            )}
+          </div>
+        ) : (
+          <Link
+            to="/signin"
+            onClick={closeMenu}
+            className="hover:text-gray-500"
+          >
+            Signin
+          </Link>
+        )}
       </div>
       <nav
         className={`${
@@ -115,9 +169,44 @@ export default function Navbar({ modeHandle, mode, cart }: NavProps) {
         <Link className=" hover:text-gray-500" to="/shop">
           Shop
         </Link>
-        <Link className=" hover:text-gray-500" to="/signin">
-          Signin
-        </Link>
+        {userInfo ? (
+          <div className="relative">
+            <button
+              onClick={toggleUserDropdown}
+              className="hover:text-gray-500"
+            >
+              {userInfo.name}
+            </button>
+            {isUserDropdownOpen && (
+              <div className="absolute right-0 mt-2 w-48 bg-primaryColor rounded-md py-1">
+                <Link
+                  to="/profile"
+                  onClick={closeMenu}
+                  className="block px-4 py-2 hover:text-primaryColor hover:bg-gray-100 duration-200"
+                >
+                  Profile
+                </Link>
+                <Link
+                  to="/signin"
+                  onClick={() => {
+                    closeMenu(), signOutHandler();
+                  }}
+                  className="block px-4 py-2 hover:text-primaryColor hover:bg-gray-100 duration-200"
+                >
+                  Sign Out
+                </Link>
+              </div>
+            )}
+          </div>
+        ) : (
+          <Link
+            to="/signin"
+            onClick={closeMenu}
+            className="hover:text-gray-500"
+          >
+            Signin
+          </Link>
+        )}
       </nav>
     </div>
   );

@@ -6,6 +6,7 @@ import Footer from "./components/Footer";
 import Navbar from "./components/Navbar";
 import { useContext, useEffect } from "react";
 import { Store } from "./Store";
+
 function App() {
   const {
     state: { mode, cart },
