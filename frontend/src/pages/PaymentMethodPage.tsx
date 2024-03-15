@@ -36,12 +36,7 @@ export default function PaymentMethodPage() {
           <title>Payment Method</title>
         </Helmet>
         <h1 className=" md:text-xl my-3">Payment Method</h1>
-        <form
-          onSubmit={(e) => {
-            submitHandler(e);
-            backhandler(e);
-          }}
-        >
+        <form onSubmit={submitHandler}>
           <div className="mb-3 flex items-center">
             <input
               type="radio"
