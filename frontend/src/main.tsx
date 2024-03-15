@@ -20,6 +20,8 @@ import SignInPage from "./pages/SignInPage.tsx";
 import SignUpPage from "./pages/SignUpPage.tsx";
 import ShippingAdressPage from "./components/ShippingAdressPage.tsx";
 import PaymentMethodPage from "./pages/PaymentMethodPage.tsx";
+import ProtedctedRoute from "./components/ProtedctedRoute.tsx";
+import PlaceOrderPage from "./pages/PlaceOrderPage.tsx";
 
 const queryClient = new QueryClient();
 
@@ -33,8 +35,11 @@ const router = createBrowserRouter(
       <Route path="cart" element={<CartPage />} />
       <Route path="signin" element={<SignInPage />} />
       <Route path="signup" element={<SignUpPage />} />
-      <Route path="shipping" element={<ShippingAdressPage />} />
-      <Route path="payment" element={<PaymentMethodPage />} />
+      <Route path="" element={<ProtedctedRoute />}>
+        <Route path="shipping" element={<ShippingAdressPage />} />
+        <Route path="payment" element={<PaymentMethodPage />} />
+        <Route path="placeorder" element={<PlaceOrderPage />} />
+      </Route>
     </Route>
   )
 );
