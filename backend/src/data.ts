@@ -202,14 +202,14 @@ export const sampleUsers: User[] = [
     name: "Mike",
     email: "admin@example.com",
     password: bcrypt.hashSync("123456"),
-    phoneNumber: 593121314,
+    phoneNumber: "593121314",
     isAdmin: true,
   },
   {
     name: "Jerry",
     email: "user@example.com",
     password: bcrypt.hashSync("123456"),
-    phoneNumber: 589131415,
+    phoneNumber: "589131415",
     isAdmin: false,
   },
 ];

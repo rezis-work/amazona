@@ -18,3 +18,26 @@ export const useSigninMutation = () =>
         })
       ).data,
   });
+
+export const useSignupMutation = () =>
+  useMutation({
+    mutationFn: async ({
+      name,
+      email,
+      phoneNumber,
+      password,
+    }: {
+      name: string;
+      email: string;
+      phoneNumber: string;
+      password: string;
+    }) =>
+      (
+        await apiClient.post<UserInfo>(`api/users/signup`, {
+          name,
+          email,
+          phoneNumber,
+          password,
+        })
+      ).data,
+  });

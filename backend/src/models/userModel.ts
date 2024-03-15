@@ -10,8 +10,8 @@ export class User {
   @prop({ required: true })
   public password!: string;
   @prop({ required: true, default: false })
-  public phoneNumber!: number;
-  @prop({ required: true, unique: true })
+  public phoneNumber!: string;
+  @prop({ required: true, default: false })
   public isAdmin!: boolean;
 }
 

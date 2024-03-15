@@ -84,6 +84,7 @@ export default function SignInPage() {
               type="password"
               className="mt-2 mb-7 border p-2 w-[280px] md:text-lg outline-none rounded-md"
               placeholder="password"
+              value={password}
               onChange={(e) => setPassword(e.target.value)}
               required
             />
