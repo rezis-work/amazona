@@ -109,12 +109,17 @@ export default function Navbar({ modeHandle, mode, cart }: NavProps) {
           <div className="relative">
             <button
               onClick={toggleUserDropdown}
-              className="hover:text-gray-500"
+              className={`hover:text-gray-500 flex items-center gap-2`}
             >
-              {userInfo.name}
+              {userInfo.name}{" "}
+              {isUserDropdownOpen ? (
+                <i className="fas fa-hand-point-up text-white"></i>
+              ) : (
+                <i className="fas fa-hand-point-down text-white"></i>
+              )}
             </button>
             {isUserDropdownOpen && (
-              <div className="absolute right-0 mt-2 w-48 bg-white shadow-lg rounded-md py-1">
+              <div className="absolute right-0 mt-2 w-48 bg-white rounded-md py-1 text-primaryColor">
                 <Link
                   to="/profile"
                   onClick={closeMenu}
@@ -170,12 +175,17 @@ export default function Navbar({ modeHandle, mode, cart }: NavProps) {
           Shop
         </Link>
         {userInfo ? (
-          <div className="relative">
+          <div className="relative ">
             <button
               onClick={toggleUserDropdown}
-              className="hover:text-gray-500"
+              className="hover:text-gray-500 flex items-center gap-2"
             >
               {userInfo.name}
+              {isUserDropdownOpen ? (
+                <i className="fas fa-hand-point-up text-white "></i>
+              ) : (
+                <i className="fas fa-hand-point-down text-white "></i>
+              )}
             </button>
             {isUserDropdownOpen && (
               <div className="absolute right-0 mt-2 w-48 bg-primaryColor rounded-md py-1">
