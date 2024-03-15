@@ -17,7 +17,6 @@ export default function Navbar({ modeHandle, mode, cart }: NavProps) {
   const { state, dispatch } = useContext(Store);
   const { userInfo } = state;
 
-  console.log(userInfo);
   useEffect(() => {
     const handleScroll = () => {
       const scrollOpacity =
