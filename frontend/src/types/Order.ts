@@ -9,7 +9,10 @@ export type Order = {
   createdAt: string;
   isPaid: boolean;
   paidAt: string;
+  isDelivered: boolean;
   isDeliveredAt: boolean;
+  paymentMethod: number;
+  deliveredAt: string;
   itemsPrice: number;
   shippingPrice: number;
   taxPrice: number;

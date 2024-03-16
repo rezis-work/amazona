@@ -40,7 +40,7 @@ export default function PlaceOrderPage() {
       });
       dispatch({ type: "CART_CLEAR" });
       localStorage.removeItem("cartItems");
-      navigate(`/orders/${data.order._id}`);
+      navigate(`/order/${data.order._id}`);
     } catch (err) {
       toast.error(getError(err as ApiError));
     }

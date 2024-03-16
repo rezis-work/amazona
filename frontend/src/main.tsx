@@ -22,6 +22,7 @@ import ShippingAdressPage from "./components/ShippingAdressPage.tsx";
 import PaymentMethodPage from "./pages/PaymentMethodPage.tsx";
 import ProtedctedRoute from "./components/ProtedctedRoute.tsx";
 import PlaceOrderPage from "./pages/PlaceOrderPage.tsx";
+import OrderPage from "./pages/OrderPage.tsx";
 
 const queryClient = new QueryClient();
 
@@ -39,6 +40,7 @@ const router = createBrowserRouter(
         <Route path="shipping" element={<ShippingAdressPage />} />
         <Route path="payment" element={<PaymentMethodPage />} />
         <Route path="placeorder" element={<PlaceOrderPage />} />
+        <Route path="/order/:id" element={<OrderPage />} />
       </Route>
     </Route>
   )
