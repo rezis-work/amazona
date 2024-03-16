@@ -1,12 +1,23 @@
-import { useContext } from "react";
+import { useContext, useEffect } from "react";
 import { Store } from "../Store";
 import { Link, useParams } from "react-router-dom";
-import { useGetOrderDetailsQuuery } from "../hooks/orderHooks";
+import {
+  useGetOrderDetailsQuuery,
+  useGetPaypalClientIdQuery,
+  usePayOrderMutation,
+} from "../hooks/orderHooks";
 import LoadingBox from "../components/LoadingBox";
 import MessageBox from "../components/MessageBox";
 import { getError } from "../utils";
 import { ApiError } from "../types/ApiError";
 import { Helmet } from "react-helmet-async";
+import { toast } from "react-toastify";
+import {
+  PayPalButtons,
+  PayPalButtonsComponentProps,
+  SCRIPT_LOADING_STATE,
+  usePayPalScriptReducer,
+} from "@paypal/react-paypal-js";
 
 export default function OrderPage() {
   const { state } = useContext(Store);
@@ -15,7 +26,77 @@ export default function OrderPage() {
   const params = useParams();
   const { id: OrderId } = params;
 
-  const { data: order, isLoading, error } = useGetOrderDetailsQuuery(OrderId!);
+  const {
+    data: order,
+    isLoading,
+    error,
+    refetch,
+  } = useGetOrderDetailsQuuery(OrderId!);
+
+  const { mutateAsync: payOrder, isLoading: loadingPay } =
+    usePayOrderMutation();
+
+  const testPayHandler = async () => {
+    await payOrder({ orderId: OrderId! });
+    refetch();
+    toast.success("Order is paid");
+  };
+
+  const [{ isPending, isRejected }, paypalDispatch] = usePayPalScriptReducer();
+
+  const { data: paypalConfig } = useGetPaypalClientIdQuery();
+
+  useEffect(() => {
+    if (paypalConfig && paypalConfig.clientId) {
+      const loadPaypalScript = async () => {
+        paypalDispatch({
+          type: "resetOptions", // Corrected typo
+          value: {
+            clientId: paypalConfig.clientId,
+            currency: "USD",
+          },
+        });
+        paypalDispatch({
+          type: "setLoadingStatus",
+          value: SCRIPT_LOADING_STATE.PENDING,
+        });
+      };
+      loadPaypalScript();
+    }
+  }, [paypalConfig, paypalDispatch]);
+
+  const paypalbuttonTransactionProps: PayPalButtonsComponentProps = {
+    style: { layout: "vertical" },
+    createOrder(data, actions) {
+      return actions.order
+        .create({
+          purchase_units: [
+            {
+              amount: {
+                value: order!.totalPrice.toString(),
+              },
+            },
+          ],
+        })
+        .then((OrderId: string) => {
+          return OrderId;
+        });
+    },
+    onApprove(data, actions) {
+      return actions.order!.capture().then(async (details) => {
+        try {
+          await payOrder({ orderId: OrderId!, ...details });
+          refetch();
+          toast.success("Order is paid successfully");
+        } catch (err) {
+          toast.error(getError(err as ApiError));
+        }
+      });
+    },
+    onError: (err) => {
+      toast.error(getError(err as ApiError));
+    },
+  };
 
   return isLoading ? (
     <LoadingBox></LoadingBox>
@@ -69,7 +150,9 @@ export default function OrderPage() {
               </p>
               <div>
                 {order.isPaid ? (
-                  <MessageBox>Paid at {order.paidAt}</MessageBox>
+                  <MessageBox className="bg-green-100 border-l-4 border-green-500 text-green-700">
+                    Paid at {order.paidAt}
+                  </MessageBox>
                 ) : (
                   <MessageBox>Not Paid</MessageBox>
                 )}
@@ -135,6 +218,28 @@ export default function OrderPage() {
                 <li className=" text-xl">${order.totalPrice.toFixed(2)}</li>
               </ul>
             </div>
+            {!order.isPaid && (
+              <div>
+                {isPending ? (
+                  <LoadingBox />
+                ) : isRejected ? (
+                  <MessageBox>Error in connecting to PayPal</MessageBox>
+                ) : (
+                  <div className=" flex flex-col">
+                    <PayPalButtons
+                      {...paypalbuttonTransactionProps}
+                    ></PayPalButtons>
+                    <button
+                      className=" mt-5 bg-black text-white py-5 rounded-md hover:bg-primaryColor hover:text-textPrimary text-xl"
+                      onClick={testPayHandler}
+                    >
+                      Pay
+                    </button>
+                  </div>
+                )}
+                {loadingPay && <LoadingBox />}
+              </div>
+            )}
           </div>
         </div>
       </div>
