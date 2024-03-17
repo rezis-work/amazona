@@ -14,3 +14,9 @@ export const useGetProductDetailsBySlugQuery = (slug: string) =>
     queryFn: async () =>
       (await apiClient.get<Product>(`api/products/slug/${slug}`)).data,
   });
+
+export const useSearchResults = async (query: string) => {
+  const response = await fetch(`/api/products?query=${query}`);
+  const data: Product[] = await response.json();
+  return data;
+};

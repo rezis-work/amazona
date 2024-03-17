@@ -3,6 +3,7 @@ import { Cart } from "../types/Cart";
 import { useState, useEffect } from "react";
 import { useContext } from "react";
 import { Store } from "../Store";
+// import SearchInput from "./SearchInput";
 
 interface NavProps {
   mode: string;
@@ -54,15 +55,23 @@ export default function Navbar({ modeHandle, mode, cart }: NavProps) {
     window.location.href = "/signin";
   };
 
+  // const navigate = useNavigate();
+
+  // const handleSearch = (query: string) => {
+  //   navigate(`/search?query=${query}`);
+  // };
+
   return (
     <div
       className={`bg-primaryColor text-textPrimary py-3 px-3 xl:px-32 flex justify-between items-center top-0 z-50 fixed w-full ${opacity} transition-opacity duration-300`}
     >
-      <h1 className="">
+      <h1 className=" text-2xl font-bold">
         <Link onClick={closeMenu} to={"/"}>
           FAMAZONA
         </Link>
       </h1>
+      {/* <SearchInput onSearch={(query) => navigate(`/search?query=${query}`)} /> */}
+
       <div className=" md:hidden cursor-pointer">
         <button onClick={() => setIsMenuOpen((cur) => !cur)}>
           <i className=" fa fa-bars text-lg"></i>
@@ -119,6 +128,12 @@ export default function Navbar({ modeHandle, mode, cart }: NavProps) {
             </button>
             {isUserDropdownOpen && (
               <div className="absolute right-0 mt-2 w-48 bg-white rounded-md py-1 text-primaryColor">
+                <Link
+                  to="/orderhistory"
+                  className="block px-4 py-2 hover:bg-gray-100"
+                >
+                  Order History
+                </Link>
                 <Link
                   to="/profile"
                   onClick={closeMenu}
@@ -188,6 +203,12 @@ export default function Navbar({ modeHandle, mode, cart }: NavProps) {
             </button>
             {isUserDropdownOpen && (
               <div className="absolute right-0 mt-2 w-48 bg-primaryColor rounded-md py-1">
+                <Link
+                  to="/orderhistory"
+                  className="block px-4 py-2 hover:bg-gray-100 hover:text-primaryColor"
+                >
+                  Order History
+                </Link>
                 <Link
                   to="/profile"
                   onClick={closeMenu}
