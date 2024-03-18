@@ -1,6 +1,8 @@
 import { useQuery } from "@tanstack/react-query";
 import apiClient from "../apiClient";
 import { Product } from "../types/Product";
+import { useState, useEffect } from "react";
+import axios from "axios";
 
 export const useGetProductsQuery = () =>
   useQuery({
@@ -15,8 +17,28 @@ export const useGetProductDetailsBySlugQuery = (slug: string) =>
       (await apiClient.get<Product>(`api/products/slug/${slug}`)).data,
   });
 
-export const useSearchResults = async (query: string) => {
-  const response = await fetch(`/api/products?query=${query}`);
-  const data: Product[] = await response.json();
-  return data;
-};
+export function useFetchProducts(query: string | null) {
+  const [data, setData] = useState<Product[]>([]);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState("");
+
+  useEffect(() => {
+    const fetchProducts = async () => {
+      try {
+        setLoading(true);
+        const response = await axios.get(
+          `http://localhost:4000/api/products?query=${query}`
+        );
+        setData(response.data);
+      } catch (err) {
+        setError("An error occurred while fetching the products.");
+        console.error(err);
+      } finally {
+        setLoading(false);
+      }
+    };
+    fetchProducts();
+  }, [query]);
+
+  return { data, loading, error };
+}

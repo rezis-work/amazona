@@ -6,9 +6,11 @@ type AppState = {
   cart: Cart;
   userInfo?: UserInfo;
   budget: number;
+  query: string;
 };
 
 const initialState: AppState = {
+  query: "",
   budget: 0,
   userInfo: localStorage.getItem("userInfo")
     ? JSON.parse(localStorage.getItem("userInfo")!)
@@ -52,7 +54,8 @@ type Action =
   | { type: "ADD_BUDGET"; payload: number }
   | { type: "SAVE_SHIPPING_ADRESS"; payload: ShippingAddress }
   | { type: "SAVE_PAYMENT_METHOD"; payload: string }
-  | { type: "CART_CLEAR" };
+  | { type: "CART_CLEAR" }
+  | { type: "FILTER_PRODUCTS"; payload: string };
 
 function reducer(state: AppState, action: Action): AppState {
   switch (action.type) {
@@ -118,6 +121,11 @@ function reducer(state: AppState, action: Action): AppState {
       return {
         ...state,
         cart: { ...state.cart, paymentMethod: action.payload },
+      };
+    case "FILTER_PRODUCTS":
+      return {
+        ...state,
+        query: action.payload,
       };
     default:
       return state;

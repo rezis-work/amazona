@@ -25,6 +25,7 @@ import PlaceOrderPage from "./pages/PlaceOrderPage.tsx";
 import OrderPage from "./pages/OrderPage.tsx";
 import { PayPalScriptProvider } from "@paypal/react-paypal-js";
 import OrderHistoryPage from "./pages/OrderHistoryPage.tsx";
+import SearchPageInput from "./components/SearchPageInput.tsx";
 
 const queryClient = new QueryClient();
 
@@ -38,6 +39,7 @@ const router = createBrowserRouter(
       {/* <Route path="dashboard" element={<Dashboard />} /> */}
       {/* ... etc. */}
       <Route index={true} element={<HomePage />} />
+      <Route path="/search" element={<SearchPageInput />} />
       <Route path="product/:slug" element={<ProductPage />} />
       <Route path="cart" element={<CartPage />} />
       <Route path="signin" element={<SignInPage />} />

@@ -4,17 +4,27 @@ import { ProductModel } from "../models/productModel";
 
 export const productRouter = express.Router();
 
-// /api/products
+interface Product {
+  [key: string]: any;
+}
 
 productRouter.get(
   "/",
   asyncHandler(async (req, res) => {
-    const products = await ProductModel.find();
+    const { query } = req.query;
+    console.log("Query received:", query);
+
+    let searchQuery = {};
+    if (query) {
+      searchQuery.name = { $regex: query, $options: "i" };
+    }
+
+    const products = await ProductModel.find(searchQuery);
     res.json(products);
   })
 );
 
-// /api/slug/tshirt
+// /api/glsu / tshirt;
 
 productRouter.get(
   "/slug/:slug",
@@ -27,23 +37,3 @@ productRouter.get(
     }
   })
 );
-
-// productRouter.get(
-//   "/",
-//   asyncHandler(async (req, res) => {
-//     // Extract query parameter
-//     const { query } = req.query;
-
-//     // Build a search query object if a query is provided
-//     let searchQuery = query
-//       ? {
-//           // Assuming you want to search by product name; adjust as necessary for your schema
-//           name: { $regex: query, $options: "i" },
-//         }
-//       : {};
-
-//     // Use the search query object in your find method
-//     const products = await ProductModel.find(searchQuery);
-//     res.json(products);
-//   })
-// );

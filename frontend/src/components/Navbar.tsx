@@ -3,6 +3,7 @@ import { Cart } from "../types/Cart";
 import { useState, useEffect } from "react";
 import { useContext } from "react";
 import { Store } from "../Store";
+import SearchBox from "./SearchBox";
 // import SearchInput from "./SearchInput";
 
 interface NavProps {
@@ -70,7 +71,7 @@ export default function Navbar({ modeHandle, mode, cart }: NavProps) {
           FAMAZONA
         </Link>
       </h1>
-      {/* <SearchInput onSearch={(query) => navigate(`/search?query=${query}`)} /> */}
+      <SearchBox />
 
       <div className=" md:hidden cursor-pointer">
         <button onClick={() => setIsMenuOpen((cur) => !cur)}>
