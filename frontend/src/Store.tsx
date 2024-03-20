@@ -1,15 +1,23 @@
 import React from "react";
 import { Cart, CartItem, ShippingAddress } from "./types/Cart";
 import { UserInfo } from "./types/UserInfo";
+type FilterOptions = {
+  category?: string;
+  brand?: string;
+  priceRange?: [number, number];
+  rating?: number;
+};
 type AppState = {
   mode: string;
   cart: Cart;
   userInfo?: UserInfo;
   budget: number;
   query: string;
+  filters: FilterOptions;
 };
 
 const initialState: AppState = {
+  filters: {},
   query: "",
   budget: 0,
   userInfo: localStorage.getItem("userInfo")
@@ -55,7 +63,8 @@ type Action =
   | { type: "SAVE_SHIPPING_ADRESS"; payload: ShippingAddress }
   | { type: "SAVE_PAYMENT_METHOD"; payload: string }
   | { type: "CART_CLEAR" }
-  | { type: "FILTER_PRODUCTS"; payload: string };
+  | { type: "FILTER_PRODUCTS"; payload: string }
+  | { type: "UPDATE_FILTER"; payload: { filterType: string; value: any } };
 
 function reducer(state: AppState, action: Action): AppState {
   switch (action.type) {
@@ -126,6 +135,14 @@ function reducer(state: AppState, action: Action): AppState {
       return {
         ...state,
         query: action.payload,
+      };
+    case "UPDATE_FILTER":
+      return {
+        ...state,
+        filters: {
+          ...state.filters,
+          [action.payload.filterType]: action.payload.value,
+        },
       };
     default:
       return state;

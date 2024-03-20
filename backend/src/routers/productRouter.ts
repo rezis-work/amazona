@@ -8,6 +8,12 @@ interface Product {
   [key: string]: any;
 }
 
+interface FilterCriteria {
+  category?: string;
+  brand?: string;
+  price?: { $gte?: number; $lte?: number };
+}
+
 productRouter.get(
   "/",
   asyncHandler(async (req, res) => {
@@ -37,3 +43,34 @@ productRouter.get(
     }
   })
 );
+
+productRouter.get("/filtered", async (req, res) => {
+  const { category, brand, priceMin, priceMax } = req.query;
+  let filterCriteria: FilterCriteria = {};
+
+  if (typeof category === "string") {
+    filterCriteria.category = category;
+  }
+
+  if (typeof brand === "string") {
+    filterCriteria.brand = brand;
+  }
+
+  if (typeof priceMin === "string" && typeof priceMax === "string") {
+    const minPrice = parseFloat(priceMin);
+    const maxPrice = parseFloat(priceMax);
+    if (!isNaN(minPrice) && !isNaN(maxPrice)) {
+      filterCriteria.price = { $gte: minPrice, $lte: maxPrice };
+    }
+  }
+
+  try {
+    const products = await ProductModel.find(filterCriteria);
+    res.json(products);
+  } catch (error) {
+    res.status(500).json({
+      message: "Failed to fetch products",
+      error: error instanceof Error ? error.message : "Unknown error",
+    });
+  }
+});

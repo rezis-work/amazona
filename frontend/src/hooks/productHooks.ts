@@ -42,3 +42,20 @@ export function useFetchProducts(query: string | null) {
 
   return { data, loading, error };
 }
+
+export const useGetFilteredProductsQuery = (filters = {}) => {
+  return useQuery({
+    queryKey: ["products", filters],
+    queryFn: async () => {
+      const queryParams = new URLSearchParams();
+
+      const response = await axios.get(
+        `/api/products/filtered/${queryParams}${filters}`
+      );
+      if (response.status !== 200) {
+        throw new Error("Network response was not ok");
+      }
+      return response.data;
+    },
+  });
+};

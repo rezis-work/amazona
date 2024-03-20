@@ -26,6 +26,8 @@ import OrderPage from "./pages/OrderPage.tsx";
 import { PayPalScriptProvider } from "@paypal/react-paypal-js";
 import OrderHistoryPage from "./pages/OrderHistoryPage.tsx";
 import SearchPageInput from "./components/SearchPageInput.tsx";
+import ShopPage from "./pages/ShopPage.tsx";
+import FilteredPage from "./pages/FilteredPage.tsx";
 
 const queryClient = new QueryClient();
 
@@ -39,11 +41,13 @@ const router = createBrowserRouter(
       {/* <Route path="dashboard" element={<Dashboard />} /> */}
       {/* ... etc. */}
       <Route index={true} element={<HomePage />} />
+      <Route path="shop" element={<ShopPage />} />
       <Route path="/search" element={<SearchPageInput />} />
       <Route path="product/:slug" element={<ProductPage />} />
       <Route path="cart" element={<CartPage />} />
       <Route path="signin" element={<SignInPage />} />
       <Route path="signup" element={<SignUpPage />} />
+      <Route path="filtered" element={<FilteredPage />} />
       <Route path="" element={<ProtedctedRoute />}>
         <Route path="shipping" element={<ShippingAdressPage />} />
         <Route path="payment" element={<PaymentMethodPage />} />
