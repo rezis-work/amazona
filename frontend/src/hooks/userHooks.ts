@@ -41,3 +41,9 @@ export const useSignupMutation = () =>
         })
       ).data,
   });
+
+export const useUpdateProfileMutation = () =>
+  useMutation({
+    mutationFn: async (userData) =>
+      (await apiClient.put<UserInfo>(`api/users/profile`, userData)).data,
+  });

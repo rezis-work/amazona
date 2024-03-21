@@ -64,7 +64,8 @@ type Action =
   | { type: "SAVE_PAYMENT_METHOD"; payload: string }
   | { type: "CART_CLEAR" }
   | { type: "FILTER_PRODUCTS"; payload: string }
-  | { type: "UPDATE_FILTER"; payload: { filterType: string; value: any } };
+  | { type: "UPDATE_FILTER"; payload: { filterType: string; value: any } }
+  | { type: "USER_UPDATE_PROFILE"; payload: UserInfo };
 
 function reducer(state: AppState, action: Action): AppState {
   switch (action.type) {
@@ -144,6 +145,9 @@ function reducer(state: AppState, action: Action): AppState {
           [action.payload.filterType]: action.payload.value,
         },
       };
+    case "USER_UPDATE_PROFILE":
+      localStorage.setItem("userInfo", JSON.stringify(action.payload));
+      return { ...state, userInfo: action.payload };
     default:
       return state;
   }

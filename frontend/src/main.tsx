@@ -28,6 +28,7 @@ import OrderHistoryPage from "./pages/OrderHistoryPage.tsx";
 import SearchPageInput from "./components/SearchPageInput.tsx";
 import ShopPage from "./pages/ShopPage.tsx";
 import FilteredPage from "./pages/FilteredPage.tsx";
+import ProfilePage from "./pages/ProfilePage.tsx";
 
 const queryClient = new QueryClient();
 
@@ -48,6 +49,7 @@ const router = createBrowserRouter(
       <Route path="signin" element={<SignInPage />} />
       <Route path="signup" element={<SignUpPage />} />
       <Route path="filtered" element={<FilteredPage />} />
+      <Route path="profile" element={<ProfilePage />} />
       <Route path="" element={<ProtedctedRoute />}>
         <Route path="shipping" element={<ShippingAdressPage />} />
         <Route path="payment" element={<PaymentMethodPage />} />

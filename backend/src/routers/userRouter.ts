@@ -2,7 +2,7 @@ import express, { Request, Response } from "express";
 import asyncHandler from "express-async-handler";
 import { User, UserModel } from "../models/userModel";
 import bcrypt from "bcryptjs";
-import { generateToken } from "../utils";
+import { generateToken, isAuth } from "../utils";
 
 export const userRouter = express.Router();
 
@@ -51,6 +51,32 @@ userRouter.post(
       });
     } catch (error) {
       res.status(500).send({ message: "Internal Server Error" });
+    }
+  })
+);
+
+userRouter.put(
+  "/profile",
+  isAuth,
+  asyncHandler(async (req: Request, res: Response) => {
+    const user = await UserModel.findById(req.user._id);
+    if (user) {
+      user.name = req.body.name || user.name;
+      user.email = req.body.email || user.email;
+      user.phoneNumber = req.body.phoneNumber || user.phoneNumber;
+
+      const updatedUser = await user.save();
+
+      res.json({
+        _id: updatedUser._id,
+        name: updatedUser.name,
+        email: updatedUser.email,
+        phoneNumber: updatedUser.phoneNumber,
+        isAdmin: updatedUser.isAdmin,
+        token: generateToken(updatedUser), // Consider if you want to regenerate the token
+      });
+    } else {
+      res.status(404).send({ message: "User Not Found" });
     }
   })
 );

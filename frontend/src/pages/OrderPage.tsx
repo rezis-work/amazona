@@ -22,7 +22,7 @@ import {
 export default function OrderPage() {
   const { state } = useContext(Store);
   const { userInfo } = state;
-
+  console.log(userInfo);
   const params = useParams();
   const { id: OrderId } = params;
 
@@ -32,6 +32,8 @@ export default function OrderPage() {
     error,
     refetch,
   } = useGetOrderDetailsQuuery(OrderId!);
+
+  console.log(order);
 
   const { mutateAsync: payOrder, isLoading: loadingPay } =
     usePayOrderMutation();
