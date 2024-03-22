@@ -3,12 +3,22 @@ import apiClient from "../apiClient";
 import { Product } from "../types/Product";
 import { useState, useEffect } from "react";
 import axios from "axios";
+import { ApiResponse } from "../types/ApiResponse";
 
-export const useGetProductsQuery = () =>
-  useQuery({
-    queryKey: ["products"],
-    queryFn: async () => (await apiClient.get<Product[]>(`api/products`)).data,
+export const useGetProductsQuery = (page = 1, pageSize = 10, query = "") => {
+  // Correctly structuring the query key and query function within the options object
+  return useQuery({
+    queryKey: ["products", page, pageSize, query],
+    queryFn: async () => {
+      const queryString = `/api/products?page=${page}&pageSize=${pageSize}${
+        query ? `&query=${encodeURIComponent(query)}` : ""
+      }`;
+      const response = await axios.get(queryString);
+      return response.data;
+    },
+    keepPreviousData: true, // Optionally keep previously fetched data while new data is loading
   });
+};
 
 export const useGetProductDetailsBySlugQuery = (slug: string) =>
   useQuery({
@@ -18,7 +28,7 @@ export const useGetProductDetailsBySlugQuery = (slug: string) =>
   });
 
 export function useFetchProducts(query: string | null) {
-  const [data, setData] = useState<Product[]>([]);
+  const [data, setData] = useState<ApiResponse>();
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState("");
 

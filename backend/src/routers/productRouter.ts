@@ -17,16 +17,31 @@ interface FilterCriteria {
 productRouter.get(
   "/",
   asyncHandler(async (req, res) => {
-    const { query } = req.query;
-    console.log("Query received:", query);
+    const page = parseInt(req.query.page as string) || 1;
+    const pageSize = parseInt(req.query.pageSize as string) || 10;
+    const { query } = req.query; // For optional search functionality
 
     let searchQuery = {};
     if (query) {
-      searchQuery.name = { $regex: query, $options: "i" };
+      searchQuery.name = { $regex: query, $options: "i" }; // Case-insensitive search
     }
 
-    const products = await ProductModel.find(searchQuery);
-    res.json(products);
+    try {
+      const totalItems = await ProductModel.countDocuments(searchQuery);
+      const products = await ProductModel.find(searchQuery)
+        .skip((page - 1) * pageSize)
+        .limit(pageSize);
+
+      res.json({
+        products,
+        page,
+        pageSize,
+        totalPages: Math.ceil(totalItems / pageSize),
+      });
+    } catch (error) {
+      console.error("Failed to fetch products:", error);
+      res.status(500).json({ message: "Failed to fetch products", error });
+    }
   })
 );
 

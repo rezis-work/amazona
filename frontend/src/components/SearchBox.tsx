@@ -20,12 +20,11 @@ export default function SearchBox() {
     const fetchSuggestions = async () => {
       if (query.length > 2) {
         try {
-          // Adjust the URL to your API endpoint that returns product suggestions
           const response = await fetch(
-            `http://localhost:4000/api/products?query=${query}`
+            `http://localhost:4000/api/products?query=${query}&page=1&pageSize=5` // Example: Fetching top 5 suggestions
           );
-          const data = await response.json();
-          setSuggestions(data);
+          const { products } = await response.json(); // Destructure `products` from the response
+          setSuggestions(products);
           setShowSuggestions(true);
         } catch (error) {
           console.error("Failed to fetch suggestions:", error);

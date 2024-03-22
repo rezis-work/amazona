@@ -8,16 +8,19 @@ function useQuery() {
 
 export default function SearchPageInput() {
   const query = useQuery().get("query");
-  const { data, loading, error } = useFetchProducts(query);
+  const { data, loading, error } = useFetchProducts(query || "");
+  console.log(data);
 
   if (loading) return <div>Loading...</div>;
   if (error) return <div>Error: {error}</div>;
 
   return (
     <div>
-      {data.map((product: Product) => (
-        <li key={product._id}>{product.name}</li>
-      ))}
+      {data &&
+        data.products &&
+        data.products.map((product: Product) => (
+          <li key={product._id}>{product.name}</li>
+        ))}
     </div>
   );
 }

@@ -6,9 +6,12 @@ import { Helmet } from "react-helmet-async";
 import { useGetProductsQuery } from "../hooks/productHooks";
 import { getError } from "../utils";
 import { ApiError } from "../types/ApiError";
+import { useState } from "react";
 
 export default function HomePage() {
-  const { data: products, isLoading, error } = useGetProductsQuery();
+  const [page, setPage] = useState(1);
+  const pageSize = 30;
+  const { data, isLoading, error } = useGetProductsQuery(page, pageSize);
   return (
     <>
       {isLoading ? (
@@ -20,7 +23,7 @@ export default function HomePage() {
           <Helmet>
             <title>Famazona</title>
           </Helmet>
-          <ListProducts products={products!} />
+          <ListProducts products={data.products!} />
         </Row>
       )}
     </>

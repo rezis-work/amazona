@@ -10,7 +10,14 @@ import FilterSidebar from "../components/FilterSidebar";
 import { useState } from "react";
 
 export default function ShopPage() {
-  const { data: products, isLoading, error } = useGetProductsQuery();
+  const [page, setPage] = useState(1);
+  const pageSize = 5;
+  const { data, isLoading, error } = useGetProductsQuery(page, pageSize);
+
+  const handlePageChange = (newPage) => setPage(newPage);
+  const handleNext = () =>
+    setPage((prev) => (data?.totalPages > prev ? prev + 1 : prev));
+  const handlePrevious = () => setPage((prev) => (prev > 1 ? prev - 1 : prev));
 
   const [isSidebarOpen, setIsSidebarOpen] = useState(false);
   return (
@@ -42,8 +49,25 @@ export default function ShopPage() {
             <Helmet>
               <title>Famazona Shop</title>
             </Helmet>
-            <ListProducts products={products!} />
+            <ListProducts products={data.products!} />
           </Row>
+          <div className="pagination">
+            <button onClick={handlePrevious} disabled={page === 1}>
+              Previous
+            </button>
+            {Array.from({ length: data?.totalPages }, (_, index) => (
+              <button
+                key={index + 1}
+                className={page === index + 1 ? "active" : ""}
+                onClick={() => handlePageChange(index + 1)}
+              >
+                {index + 1}
+              </button>
+            ))}
+            <button onClick={handleNext} disabled={page === data?.totalPages}>
+              Next
+            </button>
+          </div>
         </div>
       )}
     </>
