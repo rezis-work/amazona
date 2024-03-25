@@ -2,7 +2,7 @@ import { useContext } from "react";
 import { Store } from "../Store";
 import { useNavigate } from "react-router-dom";
 type FilterType = "category" | "brand" | "priceRange" | "rating";
-type FilterValue = string | [number, number] | number;
+type FilterValue = string | number[] | number;
 
 const FilterSidebar = () => {
   const { dispatch } = useContext(Store);
@@ -28,6 +28,10 @@ const FilterSidebar = () => {
     }
 
     navigate(`/filtered?${queryParams.toString()}`, { replace: true });
+  };
+  const clearFilters = () => {
+    dispatch({ type: "CLEAR_ALL_FILTERS" });
+    navigate("/filtered", { replace: true });
   };
   const brands = [
     "Nike",
@@ -90,6 +94,9 @@ const FilterSidebar = () => {
           ))}
         </ul>
       </div>
+      <button onClick={clearFilters} className=" mt-5">
+        Clear Filter
+      </button>
     </div>
   );
 };

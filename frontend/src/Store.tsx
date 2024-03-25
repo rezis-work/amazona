@@ -65,7 +65,8 @@ type Action =
   | { type: "CART_CLEAR" }
   | { type: "FILTER_PRODUCTS"; payload: string }
   | { type: "UPDATE_FILTER"; payload: { filterType: string; value: any } }
-  | { type: "USER_UPDATE_PROFILE"; payload: UserInfo };
+  | { type: "USER_UPDATE_PROFILE"; payload: UserInfo }
+  | { type: "CLEAR_ALL_FILTERS" };
 
 function reducer(state: AppState, action: Action): AppState {
   switch (action.type) {
@@ -148,6 +149,11 @@ function reducer(state: AppState, action: Action): AppState {
     case "USER_UPDATE_PROFILE":
       localStorage.setItem("userInfo", JSON.stringify(action.payload));
       return { ...state, userInfo: action.payload };
+    case "CLEAR_ALL_FILTERS":
+      return {
+        ...state,
+        filters: {}, // Reset filters to an empty object or initial filter state
+      };
     default:
       return state;
   }

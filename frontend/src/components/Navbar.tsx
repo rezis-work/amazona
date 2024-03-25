@@ -66,7 +66,7 @@ export default function Navbar({ modeHandle, mode, cart }: NavProps) {
     <div
       className={`bg-primaryColor text-textPrimary py-3 px-3 xl:px-32 flex justify-between items-center top-0 z-50 fixed w-full ${opacity} transition-opacity duration-300`}
     >
-      <h1 className=" text-2xl font-bold">
+      <h1 className=" md:text-2xl font-bold">
         <Link onClick={closeMenu} to={"/"}>
           FAMAZONA
         </Link>
@@ -111,7 +111,7 @@ export default function Navbar({ modeHandle, mode, cart }: NavProps) {
             </span>
           )}
         </Link>
-        <Link to="/shop" onClick={close} className="hover:text-gray-500">
+        <Link to="/shop" onClick={closeMenu} className="hover:text-gray-500">
           Shop
         </Link>
         {userInfo ? (
