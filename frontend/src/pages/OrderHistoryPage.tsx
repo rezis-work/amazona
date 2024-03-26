@@ -17,50 +17,51 @@ export default function OrderHistoryPage() {
       <Helmet>
         <title>Order History</title>
       </Helmet>
-      <h1>Order History</h1>
+      <h1 className=" mb-10 font-bold text-2xl">Order History</h1>
       {isLoading ? (
         <LoadingBox />
       ) : error ? (
         <MessageBox>{getError(error as unknown as ApiError)}</MessageBox>
       ) : (
-        <table className="">
-          <thead>
-            <tr>
-              <th>ID</th>
-              <th>DATE</th>
-              <th>TOTAL</th>
-              <th>PAID</th>
-              <th>DELIVERED</th>
-              <th>ACTIONS</th>
-            </tr>
-          </thead>
-          <tbody>
+        <div className=" border">
+          <div>
             {orders?.map((order) => (
-              <tr key={order._id}>
-                <td>{order._id}</td>
-                <td>{order.createdAt.substring(0, 10)}</td>
-                <td>{order.totalPrice.toFixed(2)}</td>
-                <td>{order.isPaid ? order.paidAt.substring(0, 10) : "No"}</td>
-                <td>
+              <ul key={order._id} className=" border">
+                <li className="border lg:text-4xl md:text-lg text-sm pl-5">
+                  ID - {order._id}
+                </li>
+                <li className="border lg:text-4xl md:text-lg text-sm pl-5 py-2">
+                  DATE - {order.createdAt.substring(0, 10)}
+                </li>
+                <li className="border lg:text-4xl md:text-lg text-sm pl-5 py-2">
+                  TOTAL - ${order.totalPrice.toFixed(2)}
+                </li>
+                <li className="border lg:text-4xl md:text-lg text-sm pl-5 py-2">
+                  PAID - {order.isPaid ? order.paidAt.substring(0, 10) : "No"}
+                </li>
+                <li className="border lg:text-4xl md:text-lg text-sm pl-5 py-2">
+                  DELIVERED -{" "}
                   {order.isDelivered
                     ? order.deliveredAt.substring(0, 10)
                     : "No"}
-                </td>
-                <td>
+                </li>
+                <li className="border lg:text-4xl md:text-lg text-sm pl-5 py-2">
+                  {" "}
+                  ACTIONS -{" "}
                   <button
                     type="button"
-                    className=" text-lg px-8 py-2 rounded-lg bg-primaryColor text-white hover:bg-black"
+                    className=" lg:text-lg px-2 lg:px-8 lg:py-2 rounded-lg bg-primaryColor text-white hover:bg-black"
                     onClick={() => {
                       navigate(`/order/${order._id}`);
                     }}
                   >
                     Details
                   </button>
-                </td>
-              </tr>
+                </li>
+              </ul>
             ))}
-          </tbody>
-        </table>
+          </div>
+        </div>
       )}
     </div>
   );

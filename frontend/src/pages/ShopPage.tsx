@@ -51,20 +51,30 @@ export default function ShopPage() {
             </Helmet>
             <ListProducts products={data.products!} />
           </Row>
-          <div className="pagination">
-            <button onClick={handlePrevious} disabled={page === 1}>
+          <div className=" w-full flex gap-2 justify-center py-10">
+            <button
+              onClick={handlePrevious}
+              disabled={page === 1}
+              className=" bg-gray-500 px-2 py-1 rounded-lg text-white hover:bg-gray-800"
+            >
               Previous
             </button>
             {Array.from({ length: data?.totalPages }, (_, index) => (
               <button
                 key={index + 1}
-                className={page === index + 1 ? "active" : ""}
+                className={`${
+                  page === index + 1 ? "active" : ""
+                } bg-primaryColor py-1 px-3 rounded-full text-white hover:bg-gray-300`}
                 onClick={() => handlePageChange(index + 1)}
               >
                 {index + 1}
               </button>
             ))}
-            <button onClick={handleNext} disabled={page === data?.totalPages}>
+            <button
+              onClick={handleNext}
+              disabled={page === data?.totalPages}
+              className=" bg-gray-500 px-2 py-1 rounded-lg text-white hover:bg-gray-800"
+            >
               Next
             </button>
           </div>

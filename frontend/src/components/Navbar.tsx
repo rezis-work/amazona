@@ -22,7 +22,7 @@ export default function Navbar({ modeHandle, mode, cart }: NavProps) {
   useEffect(() => {
     const handleScroll = () => {
       const scrollOpacity =
-        window.scrollY < 100 ? "bg-opacity-100" : "bg-opacity-80";
+        window.scrollY < 100 ? "bg-opacity-100" : "bg-opacity-95";
       setOpacity(scrollOpacity);
     };
 

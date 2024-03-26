@@ -5,6 +5,7 @@ import { Store } from "../Store";
 import { Product } from "../types/Product";
 import FilterSidebar from "../components/FilterSidebar";
 import Row from "../components/Row";
+import ListProducts from "../components/ListProducts";
 // Uncomment the next line when you're ready to display the products
 // import ListProducts from "../components/ListProducts";
 
@@ -52,9 +53,7 @@ const FilteredPage = () => {
         <FilterSidebar />
       </div>
       <Row>
-        {products?.map((product: Product) => (
-          <div key={product._id}>{product.name}</div>
-        )) || <div>No products found</div>}
+        <ListProducts products={products} />
       </Row>
     </div>
   );
