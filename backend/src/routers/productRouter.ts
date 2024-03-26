@@ -23,7 +23,8 @@ productRouter.get(
 
     let searchQuery = {};
     if (query) {
-      searchQuery.name = { $regex: query, $options: "i" }; // Case-insensitive search
+      searchQuery = { name: { $regex: query, $options: "i" } };
+      // searchQuery.name = { $regex: query, $options: "i" }; // Case-insensitive search
     }
 
     try {

@@ -1,6 +1,7 @@
 import { useLocation } from "react-router-dom";
 import { useFetchProducts } from "../hooks/productHooks";
-import { Product } from "../types/Product";
+import ListProducts from "./ListProducts";
+import Row from "./Row";
 
 function useQuery() {
   return new URLSearchParams(useLocation().search);
@@ -15,12 +16,8 @@ export default function SearchPageInput() {
   if (error) return <div>Error: {error}</div>;
 
   return (
-    <div>
-      {data &&
-        data.products &&
-        data.products.map((product: Product) => (
-          <li key={product._id}>{product.name}</li>
-        ))}
-    </div>
+    <Row>
+      {data && data.products && <ListProducts products={data?.products} />}
+    </Row>
   );
 }

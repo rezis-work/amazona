@@ -16,7 +16,7 @@ export const useGetProductsQuery = (page = 1, pageSize = 10, query = "") => {
       const response = await axios.get(queryString);
       return response.data;
     },
-    keepPreviousData: true, // Optionally keep previously fetched data while new data is loading
+    // keepPreviousData: true, // Optionally keep previously fetched data while new data is loading
   });
 };
 

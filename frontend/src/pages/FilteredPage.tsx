@@ -2,7 +2,6 @@ import { useLocation } from "react-router-dom";
 import { useGetFilteredProductsQuery } from "../hooks/productHooks";
 import { useContext, useState } from "react";
 import { Store } from "../Store";
-import { Product } from "../types/Product";
 import FilterSidebar from "../components/FilterSidebar";
 import Row from "../components/Row";
 import ListProducts from "../components/ListProducts";

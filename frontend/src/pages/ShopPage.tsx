@@ -14,7 +14,7 @@ export default function ShopPage() {
   const pageSize = 5;
   const { data, isLoading, error } = useGetProductsQuery(page, pageSize);
 
-  const handlePageChange = (newPage) => setPage(newPage);
+  const handlePageChange = (newPage: number) => setPage(newPage);
   const handleNext = () =>
     setPage((prev) => (data?.totalPages > prev ? prev + 1 : prev));
   const handlePrevious = () => setPage((prev) => (prev > 1 ? prev - 1 : prev));
