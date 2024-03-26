@@ -8,6 +8,7 @@ import { ApiError } from "../types/ApiError";
 import Container from "../components/Container";
 import { Helmet } from "react-helmet-async";
 import LoadingBox from "../components/LoadingBox";
+import { motion } from "framer-motion";
 
 export default function SignUpPage() {
   const navigate = useNavigate();
@@ -82,7 +83,15 @@ export default function SignUpPage() {
       <h1 className=" text-center font-bold  text-2xl mt-3 border-b-[1px] border-b-primaryColor pb-5">
         Sign Up
       </h1>
-      <div className=" bg-white shadow-2xl  mb-20 rounded-xl flex items-center justify-center mt-9 py-20 lg:w-[50%] mx-auto">
+      <motion.div
+        initial={{ y: 50, opacity: 0 }} // Initial position and opacity
+        animate={{
+          y: 0,
+          opacity: 1,
+          transition: { type: "spring", stiffness: 300 },
+        }}
+        className=" bg-white shadow-2xl  mb-20 rounded-xl flex items-center justify-center mt-9 py-20 lg:w-[50%] mx-auto"
+      >
         <form onSubmit={submitHandler}>
           <div className=" mb-3">
             <label
@@ -207,7 +216,7 @@ export default function SignUpPage() {
             </Link>
           </div>
         </form>
-      </div>
+      </motion.div>
     </Container>
   );
 }

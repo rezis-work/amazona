@@ -40,7 +40,7 @@ function App() {
       <header className="">
         <Navbar modeHandle={switchModeHandler} mode={mode} cart={cart} />
       </header>
-      <main className="">
+      <main>
         <Container>
           <Outlet />
         </Container>

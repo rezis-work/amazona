@@ -1,5 +1,6 @@
-import React, { useState, useEffect, useRef, FC, useCallback } from "react";
+import { useState, useEffect, useRef, FC, useCallback } from "react";
 import { Product } from "../types/Product";
+import { Link } from "react-router-dom";
 
 interface CarouselProps {
   products: Product[];
@@ -35,7 +36,7 @@ const ProductsCarousel: FC<CarouselProps> = ({ products }) => {
   };
 
   return (
-    <div className="relative overflow-hidden mt-[200px]  p-10 border-[1px]">
+    <div className="relative overflow-hidden mt-[30px]  p-10 border-[1px]">
       <button
         onClick={goToPreviousSet}
         className="absolute left-0 top-1/2 transform -translate-y-1/2 bg-gray-800 text-white p-2 z-10"
@@ -54,13 +55,27 @@ const ProductsCarousel: FC<CarouselProps> = ({ products }) => {
             key={product._id}
             className="min-w-[33.333%] flex-shrink-0 p-4  border-[1px]"
           >
-            <img
-              src={product.image}
-              alt={product.name}
-              className="w-full h-[200px] lg:h-[500px] object-cover"
-            />
-            <p className="text-center">{product.name}</p>
-            <p className="text-center">${product.price}</p>
+            <Link to={`/product/${product.slug}`}>
+              <img
+                src={product.image}
+                alt={product.name}
+                className="w-full h-[200px] lg:h-[500px] object-cover"
+              />
+            </Link>
+            <p className="text-center mt-3 text-lg font-semibold">
+              {product.name}
+            </p>
+            <p className="text-center">
+              Old price -{" "}
+              <span className=" line-through text-red-500">
+                ${product.price}
+              </span>
+            </p>
+            <p className=" text-center">
+              New Price -{" "}
+              <span className=" text-green-600">${product.price - 30}</span>
+            </p>
+            <p className=" mt-5">Produced by {product.brand}</p>
           </div>
         ))}
       </div>
