@@ -5,9 +5,13 @@
   "main": "index.js",
   "scripts": {
     "build": "cd backend && npm install && tsc --noEmit || true && cd ../frontend && npm install && npm run build",
-    "start": "TG_ALLOW_MIXED=ALLOW node beckend/build/index.js",
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "start": "cross-env TG_ALLOW_MIXED=ALLOW node backend/build/index.js",
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "dev": "npm run dev"
   },
   "author": "",
-  "license": "ISC"
+  "license": "ISC",
+  "dependencies": {
+    "cross-env": "^7.0.3"
+  }
 }
