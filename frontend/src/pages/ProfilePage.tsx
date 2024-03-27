@@ -60,27 +60,27 @@ export default function ProfilePage() {
         <form onSubmit={handleSubmit} className=" flex flex-col gap-3">
           <input
             type="text"
-            className=" outline-none border-[1px] w-[400px] pl-5 py-2"
+            className=" outline-none border-[1px] w-[200px] lg:w-[400px] pl-5 py-2"
             placeholder="enter new name"
             value={name}
             onChange={(e) => setName(e.target.value)}
           />
           <input
             type="text"
-            className=" outline-none border-[1px] w-[400px] pl-5 py-2"
+            className=" outline-none border-[1px] w-[200px] lg:w-[400px] pl-5 py-2"
             placeholder="enter new E-mail"
             value={email}
             onChange={(e) => setEmail(e.target.value)}
           />
           <input
             type="text"
-            className=" outline-none border-[1px] w-[400px] pl-5 py-2"
+            className=" outline-none border-[1px] w-[200px] lg:w-[400px] pl-5 py-2"
             placeholder="enter new Number"
             value={phoneNumber}
             onChange={(e) => setPhoneNumber(e.target.value)}
           />
           <button
-            className=" w-[400px] flex justify-center py-2 bg-primaryColor text-white text-lg rounded-lg hover:bg-textPrimary hover:text-primaryColor duration-200"
+            className=" w-[200px] lg:w-[400px] flex justify-center py-2 bg-primaryColor text-white text-lg rounded-lg hover:bg-textPrimary hover:text-primaryColor duration-200"
             type="submit"
           >
             Submit
