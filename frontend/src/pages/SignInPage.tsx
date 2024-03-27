@@ -1,28 +1,28 @@
-import { useContext, useEffect, useState } from "react";
-import { Link, useLocation, useNavigate } from "react-router-dom";
-import { Store } from "../Store";
-import { useSigninMutation } from "../hooks/userHooks";
-import { toast } from "react-toastify";
-import { getError } from "../utils";
-import { ApiError } from "../types/ApiError";
-import Container from "../components/Container";
-import { Helmet } from "react-helmet-async";
-import LoadingBox from "../components/LoadingBox";
-import { motion } from "framer-motion";
+import { useContext, useEffect, useState } from 'react';
+import { Link, useLocation, useNavigate } from 'react-router-dom';
+import { Store } from '../Store';
+import { useSigninMutation } from '../hooks/userHooks';
+import { toast } from 'react-toastify';
+import { getError } from '../utils';
+import { ApiError } from '../types/ApiError';
+import Container from '../components/Container';
+import { Helmet } from 'react-helmet-async';
+import LoadingBox from '../components/LoadingBox';
+import { motion } from 'framer-motion';
 
 export default function SignInPage() {
   const navigate = useNavigate();
   const { search } = useLocation();
-  const redirectInUrl = new URLSearchParams(search).get("redirect");
-  const redirect = redirectInUrl ? redirectInUrl : "/";
+  const redirectInUrl = new URLSearchParams(search).get('redirect');
+  const redirect = redirectInUrl ? redirectInUrl : '/';
 
-  const [email, setEmail] = useState("");
-  const [password, setPassword] = useState("");
+  const [email, setEmail] = useState('');
+  const [password, setPassword] = useState('');
 
   const { state, dispatch } = useContext(Store);
   const { userInfo } = state;
 
-  const { mutateAsync: signin, isLoading } = useSigninMutation();
+  const { mutateAsync: signin, isPending } = useSigninMutation();
 
   const submitHandler = async (e: React.SyntheticEvent) => {
     e.preventDefault();
@@ -32,8 +32,8 @@ export default function SignInPage() {
         email,
         password,
       });
-      dispatch({ type: "USER_SIGNIN", payload: data });
-      localStorage.setItem("userInfo", JSON.stringify(data));
+      dispatch({ type: 'USER_SIGNIN', payload: data });
+      localStorage.setItem('userInfo', JSON.stringify(data));
       navigate(redirect);
     } catch (err) {
       toast.error(getError(err as ApiError));
@@ -59,7 +59,7 @@ export default function SignInPage() {
         animate={{
           y: 0,
           opacity: 1,
-          transition: { type: "spring", stiffness: 300 },
+          transition: { type: 'spring', stiffness: 300 },
         }}
         className=" bg-white shadow-2xl  mb-20 rounded-xl flex items-center justify-center mt-9 py-20 lg:w-[50%] mx-auto"
       >
@@ -70,7 +70,7 @@ export default function SignInPage() {
               htmlFor="email"
             >
               E-mail Adress
-            </label>{" "}
+            </label>{' '}
             <br />
             <input
               type="email"
@@ -87,7 +87,7 @@ export default function SignInPage() {
               htmlFor="password"
             >
               Password
-            </label>{" "}
+            </label>{' '}
             <br />
             <input
               type="password"
@@ -100,13 +100,13 @@ export default function SignInPage() {
           </div>
           <div className=" flex justify-center">
             <button
-              disabled={isLoading}
+              disabled={isPending}
               type="submit"
               className=" bg-primaryColor text-white py-3 w-full mb-5 hover:bg-black md:text-lg duration-200"
             >
               Sign In
             </button>
-            {isLoading && <LoadingBox />}
+            {isPending && <LoadingBox />}
           </div>
           <div className=" text-primaryColor flex justify-between items-center">
             <span className=" font-semibold">New customer?</span>

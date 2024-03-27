@@ -1,6 +1,6 @@
-import { useMutation } from "@tanstack/react-query";
-import apiClient from "../apiClient";
-import { UserInfo } from "../types/UserInfo";
+import { useMutation } from '@tanstack/react-query';
+import apiClient from '../apiClient';
+import { UserInfo } from '../types/UserInfo';
 
 export const useSigninMutation = () =>
   useMutation({
@@ -44,6 +44,9 @@ export const useSignupMutation = () =>
 
 export const useUpdateProfileMutation = () =>
   useMutation({
-    mutationFn: async (userData) =>
-      (await apiClient.put<UserInfo>(`api/users/profile`, userData)).data,
+    mutationFn: async (userData: {
+      name: string;
+      email: string;
+      phoneNumber: string;
+    }) => (await apiClient.put<UserInfo>(`api/users/profile`, userData)).data,
   });

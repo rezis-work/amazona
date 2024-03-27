@@ -1,23 +1,23 @@
-import { useContext, useEffect } from "react";
-import { Store } from "../Store";
-import { Link, useParams } from "react-router-dom";
+import { useContext, useEffect } from 'react';
+import { Store } from '../Store';
+import { Link, useParams } from 'react-router-dom';
 import {
   useGetOrderDetailsQuuery,
   useGetPaypalClientIdQuery,
   usePayOrderMutation,
-} from "../hooks/orderHooks";
-import LoadingBox from "../components/LoadingBox";
-import MessageBox from "../components/MessageBox";
-import { getError } from "../utils";
-import { ApiError } from "../types/ApiError";
-import { Helmet } from "react-helmet-async";
-import { toast } from "react-toastify";
+} from '../hooks/orderHooks';
+import LoadingBox from '../components/LoadingBox';
+import MessageBox from '../components/MessageBox';
+import { getError } from '../utils';
+import { ApiError } from '../types/ApiError';
+import { Helmet } from 'react-helmet-async';
+import { toast } from 'react-toastify';
 import {
   PayPalButtons,
   PayPalButtonsComponentProps,
   SCRIPT_LOADING_STATE,
   usePayPalScriptReducer,
-} from "@paypal/react-paypal-js";
+} from '@paypal/react-paypal-js';
 
 export default function OrderPage() {
   const { state } = useContext(Store);
@@ -35,13 +35,13 @@ export default function OrderPage() {
 
   console.log(order);
 
-  const { mutateAsync: payOrder, isLoading: loadingPay } =
+  const { mutateAsync: payOrder, isPending: loadingPay } =
     usePayOrderMutation();
 
   const testPayHandler = async () => {
     await payOrder({ orderId: OrderId! });
     refetch();
-    toast.success("Order is paid");
+    toast.success('Order is paid');
   };
 
   const [{ isPending, isRejected }, paypalDispatch] = usePayPalScriptReducer();
@@ -52,14 +52,14 @@ export default function OrderPage() {
     if (paypalConfig && paypalConfig.clientId) {
       const loadPaypalScript = async () => {
         paypalDispatch({
-          type: "resetOptions", // Corrected typo
+          type: 'resetOptions', // Corrected typo
           value: {
             clientId: paypalConfig.clientId,
-            currency: "USD",
+            currency: 'USD',
           },
         });
         paypalDispatch({
-          type: "setLoadingStatus",
+          type: 'setLoadingStatus',
           value: SCRIPT_LOADING_STATE.PENDING,
         });
       };
@@ -68,32 +68,30 @@ export default function OrderPage() {
   }, [paypalConfig, paypalDispatch]);
 
   const paypalbuttonTransactionProps: PayPalButtonsComponentProps = {
-    style: { layout: "vertical" },
-    createOrder(__, actions) {
-      return actions.order
-        .create({
-          purchase_units: [
-            {
-              amount: {
-                value: order!.totalPrice.toString(),
-              },
+    style: { layout: 'vertical' },
+    async createOrder(__, actions) {
+      const OrderId = await actions.order.create({
+        intent: 'CAPTURE',
+        purchase_units: [
+          {
+            amount: {
+              currency_code: 'USD', // Provide the currency code here
+              value: order!.totalPrice.toString(),
             },
-          ],
-        })
-        .then((OrderId: string) => {
-          return OrderId;
-        });
-    },
-    onApprove(__, actions) {
-      return actions.order!.capture().then(async (details) => {
-        try {
-          await payOrder({ orderId: OrderId!, ...details });
-          refetch();
-          toast.success("Order is paid successfully");
-        } catch (err) {
-          toast.error(getError(err as ApiError));
-        }
+          },
+        ],
       });
+      return OrderId;
+    },
+    async onApprove(__, actions) {
+      const details = await actions.order!.capture();
+      try {
+        await payOrder({ orderId: OrderId!, ...details });
+        refetch();
+        toast.success('Order is paid successfully');
+      } catch (err) {
+        toast.error(getError(err as ApiError));
+      }
     },
     onError: (err) => {
       toast.error(getError(err as ApiError));
@@ -121,11 +119,11 @@ export default function OrderPage() {
             <div className=" p-5">
               <div className=" border-[1px] p-5 mb-5 rounded-md">
                 <p>
-                  <span className=" text-lg">Name:</span>{" "}
+                  <span className=" text-lg">Name:</span>{' '}
                   {order.shippingAddress.fullName}
                 </p>
                 <p>
-                  <span className=" text-lg">Address:</span>{" "}
+                  <span className=" text-lg">Address:</span>{' '}
                   <span className=" mr-3">
                     {order.shippingAddress.address},
                   </span>
