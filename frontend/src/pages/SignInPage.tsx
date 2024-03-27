@@ -22,7 +22,7 @@ export default function SignInPage() {
   const { state, dispatch } = useContext(Store);
   const { userInfo } = state;
 
-  const { mutateAsync: signin, isLoading } = useSigninMutation();
+  const { mutateAsync: signin, isPending } = useSigninMutation();
 
   const submitHandler = async (e: React.SyntheticEvent) => {
     e.preventDefault();
@@ -100,13 +100,13 @@ export default function SignInPage() {
           </div>
           <div className=" flex justify-center">
             <button
-              disabled={isLoading}
+              disabled={isPending}
               type="submit"
               className=" bg-primaryColor text-white py-3 w-full mb-5 hover:bg-black md:text-lg duration-200"
             >
               Sign In
             </button>
-            {isLoading && <LoadingBox />}
+            {isPending && <LoadingBox />}
           </div>
           <div className=" text-primaryColor flex justify-between items-center">
             <span className=" font-semibold">New customer?</span>

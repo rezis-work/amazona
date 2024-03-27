@@ -33,9 +33,7 @@ export default function OrderPage() {
     refetch,
   } = useGetOrderDetailsQuuery(OrderId!);
 
-  console.log(order);
-
-  const { mutateAsync: payOrder, isLoading: loadingPay } =
+  const { mutateAsync: payOrder, isPending: loadingPay } =
     usePayOrderMutation();
 
   const testPayHandler = async () => {
@@ -72,9 +70,11 @@ export default function OrderPage() {
     createOrder(__, actions) {
       return actions.order
         .create({
+          intent: "CAPTURE",
           purchase_units: [
             {
               amount: {
+                currency_code: "USD",
                 value: order!.totalPrice.toString(),
               },
             },

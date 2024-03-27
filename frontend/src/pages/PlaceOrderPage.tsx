@@ -25,7 +25,7 @@ export default function PlaceOrderPage() {
   cart.taxPrice = round2(0.15 * cart.itemsPrice);
   cart.totalPrice = cart.itemsPrice + cart.shippingPrice + cart.taxPrice;
 
-  const { mutateAsync: createOrder, isLoading } = useCreateOrderMutation();
+  const { mutateAsync: createOrder, isPending } = useCreateOrderMutation();
 
   const placeOrderHandler = async () => {
     try {
@@ -177,12 +177,12 @@ export default function PlaceOrderPage() {
                 <button
                   type="button"
                   onClick={placeOrderHandler}
-                  disabled={cart.cartItems.length === 0 || isLoading}
+                  disabled={cart.cartItems.length === 0 || isPending}
                   className=" bg-primaryColor px-10 py-3 text-xl rounded-md text-white hover:bg-black duration-200"
                 >
                   Place Order
                 </button>
-                {isLoading && <LoadingBox></LoadingBox>}
+                {isPending && <LoadingBox></LoadingBox>}
               </div>
             </div>
           </div>
