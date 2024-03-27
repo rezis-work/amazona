@@ -1,16 +1,16 @@
-import { useContext, useState } from "react";
-import { Store } from "../Store";
-import Container from "../components/Container";
-import { useUpdateProfileMutation } from "../hooks/userHooks";
-import { toast } from "react-toastify";
+import { useContext, useState } from 'react';
+import { Store } from '../Store';
+import Container from '../components/Container';
+import { useUpdateProfileMutation } from '../hooks/userHooks';
+import { toast } from 'react-toastify';
 
 export default function ProfilePage() {
   const { state, dispatch } = useContext(Store);
   const { userInfo } = state;
 
-  const [name, setName] = useState(userInfo?.name || "");
-  const [email, setEmail] = useState(userInfo?.email || "");
-  const [phoneNumber, setPhoneNumber] = useState(userInfo?.phoneNumber || "");
+  const [name, setName] = useState(userInfo?.name || '');
+  const [email, setEmail] = useState(userInfo?.email || '');
+  const [phoneNumber, setPhoneNumber] = useState(userInfo?.phoneNumber || '');
 
   const { mutate: updateProfile } = useUpdateProfileMutation();
 
@@ -20,13 +20,13 @@ export default function ProfilePage() {
       { name, email, phoneNumber },
       {
         onSuccess: (updatedUserInfo) => {
-          dispatch({ type: "USER_UPDATE_PROFILE", payload: updatedUserInfo });
-          toast.success("Profile updated successfully!");
+          dispatch({ type: 'USER_UPDATE_PROFILE', payload: updatedUserInfo });
+          toast.success('Profile updated successfully!');
         },
         onError: (error) => {
           // Handle error
-          console.error("Error updating profile:", error);
-          toast.error("Failed to update profile.");
+          console.error('Error updating profile:', error);
+          toast.error('Failed to update profile.');
         },
       }
     );
@@ -35,7 +35,7 @@ export default function ProfilePage() {
   return (
     <Container>
       <h1 className=" pl-5 mb-10 border-b pb-2 text-3xl font-bold text-primaryColor">
-        {userInfo?.isAdmin ? "Admin Profile" : "User Profile"}
+        {userInfo?.isAdmin ? 'Admin Profile' : 'User Profile'}
       </h1>
       <div className=" flex px-5 border-l-[2px]">
         <div className=" flex flex-col gap-3">
@@ -49,7 +49,7 @@ export default function ProfilePage() {
             Phone Number: {userInfo?.phoneNumber}
           </p>
           <p className=" text-xl font-semibold text-primaryColor">
-            Status: {userInfo?.isAdmin ? "Admin" : "User"}
+            Status: {userInfo?.isAdmin ? 'Admin' : 'User'}
           </p>
         </div>
       </div>

@@ -1,13 +1,13 @@
-import { useContext, useEffect } from "react";
-import { Link, useNavigate } from "react-router-dom";
-import { Store } from "../Store";
-import { useCreateOrderMutation } from "../hooks/orderHooks";
-import { toast } from "react-toastify";
-import { getError } from "../utils";
-import { ApiError } from "../types/ApiError";
-import CheckoutSteps from "../components/CheckoutSteps";
-import { Helmet } from "react-helmet-async";
-import LoadingBox from "../components/LoadingBox";
+import { useContext, useEffect } from 'react';
+import { Link, useNavigate } from 'react-router-dom';
+import { Store } from '../Store';
+import { useCreateOrderMutation } from '../hooks/orderHooks';
+import { toast } from 'react-toastify';
+import { getError } from '../utils';
+import { ApiError } from '../types/ApiError';
+import CheckoutSteps from '../components/CheckoutSteps';
+import { Helmet } from 'react-helmet-async';
+import LoadingBox from '../components/LoadingBox';
 
 export default function PlaceOrderPage() {
   const navigate = useNavigate();
@@ -25,7 +25,7 @@ export default function PlaceOrderPage() {
   cart.taxPrice = round2(0.15 * cart.itemsPrice);
   cart.totalPrice = cart.itemsPrice + cart.shippingPrice + cart.taxPrice;
 
-  const { mutateAsync: createOrder, isLoading } = useCreateOrderMutation();
+  const { mutateAsync: createOrder, isPending } = useCreateOrderMutation();
 
   const placeOrderHandler = async () => {
     try {
@@ -38,8 +38,8 @@ export default function PlaceOrderPage() {
         taxPrice: cart.taxPrice,
         totalPrice: cart.totalPrice,
       });
-      dispatch({ type: "CART_CLEAR" });
-      localStorage.removeItem("cartItems");
+      dispatch({ type: 'CART_CLEAR' });
+      localStorage.removeItem('cartItems');
       navigate(`/order/${data.order._id}`);
     } catch (err) {
       toast.error(getError(err as ApiError));
@@ -48,7 +48,7 @@ export default function PlaceOrderPage() {
 
   useEffect(() => {
     if (!cart.paymentMethod) {
-      navigate("/payment");
+      navigate('/payment');
     }
   }, [cart, navigate]);
 
@@ -73,13 +73,13 @@ export default function PlaceOrderPage() {
                 </p>
                 <p className=" flex gap-4">
                   <strong>Address:</strong>
-                  {cart.shippingAddress.address}, {cart.shippingAddress.city},{" "}
-                  {cart.shippingAddress.postalCode},{" "}
+                  {cart.shippingAddress.address}, {cart.shippingAddress.city},{' '}
+                  {cart.shippingAddress.postalCode},{' '}
                   {cart.shippingAddress.country}
                 </p>
                 <Link
                   className=" border-[1px] px-6 py-2 w-20 text-lg rounded-lg hover:bg-black hover:text-white bg-primaryColor text-white duration-200"
-                  to={"/shipping"}
+                  to={'/shipping'}
                 >
                   Edit
                 </Link>
@@ -93,7 +93,7 @@ export default function PlaceOrderPage() {
                 </p>
                 <Link
                   className=" border-[1px] px-6 py-2 text-lg rounded-lg bg-primaryColor text-white hover:bg-black hover:text-white w-20 duration-200"
-                  to={"/payment"}
+                  to={'/payment'}
                 >
                   Edit
                 </Link>
@@ -177,12 +177,12 @@ export default function PlaceOrderPage() {
                 <button
                   type="button"
                   onClick={placeOrderHandler}
-                  disabled={cart.cartItems.length === 0 || isLoading}
+                  disabled={cart.cartItems.length === 0 || isPending}
                   className=" bg-primaryColor px-10 py-3 text-xl rounded-md text-white hover:bg-black duration-200"
                 >
                   Place Order
                 </button>
-                {isLoading && <LoadingBox></LoadingBox>}
+                {isPending && <LoadingBox></LoadingBox>}
               </div>
             </div>
           </div>

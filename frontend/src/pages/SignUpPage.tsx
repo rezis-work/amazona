@@ -33,7 +33,7 @@ export default function SignUpPage() {
     }
   }, [navigate, redirect, userInfo]);
 
-  const { mutateAsync: signup, isLoading } = useSignupMutation();
+  const { mutateAsync: signup, isPending  } = useSignupMutation();
 
   const validateEmail = (email: string) => {
     // Basic regex for email validation
@@ -198,13 +198,13 @@ export default function SignUpPage() {
 
           <div className=" flex justify-center">
             <button
-              disabled={isLoading}
+              disabled={isPending}
               type="submit"
               className=" bg-primaryColor text-white py-3 w-full mb-5 hover:bg-black md:text-lg duration-200 rounded-md"
             >
               Sign Up
             </button>
-            {isLoading && <LoadingBox />}
+            {isPending && <LoadingBox />}
           </div>
           <div className=" text-primaryColor flex justify-between items-center">
             <span className=" font-semibold">Already habe an account?</span>
