@@ -25,8 +25,9 @@ export default function OrderHistoryPage() {
       ) : (
         <div className=" border">
           <div>
-            {orders?.map((order) => (
-              <ul key={order._id} className=" border">
+            {orders?.map((order, i) => (
+              <ul key={order._id} className=" border-[3px] mt-5">
+                <h3 className=" pl-5 mb-2">order: {i + 1}</h3>
                 <li className="border lg:text-4xl md:text-lg text-sm pl-5">
                   ID - {order._id}
                 </li>

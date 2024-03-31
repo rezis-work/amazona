@@ -20,6 +20,7 @@ export default function ShopPage() {
   const handlePrevious = () => setPage((prev) => (prev > 1 ? prev - 1 : prev));
 
   const [isSidebarOpen, setIsSidebarOpen] = useState(false);
+
   return (
     <>
       {isLoading ? (

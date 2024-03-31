@@ -114,7 +114,9 @@ export default function CartPage() {
             </li>
           ))}
         </ul>
-        <p className="text-xl mb-4">Subtotal: ${calculateTotal().toFixed(2)}</p>
+        <p className="text-xl mb-4 subtotal">
+          Subtotal: ${calculateTotal().toFixed(2)}
+        </p>
         <button
           className="bg-primaryColor text-white w-full py-2 rounded hover:bg-primaryColor-dark"
           onClick={checkoutHandler}

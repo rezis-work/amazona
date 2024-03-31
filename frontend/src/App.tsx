@@ -16,11 +16,15 @@ function App() {
   useEffect(() => {
     // Set the background color based on the mode
     const backgroundColor = mode === "dark" ? "black" : "white";
-    const textColor = mode === "light" ? "black" : "white";
+    const textColor = mode === "light" ? "black" : "#dee2e6";
     document.body.style.backgroundColor = backgroundColor;
-    document.body.style.color = textColor;
 
-    // Save the current mode to localStorage to persist between sessions
+    const text = document.querySelector(".subtotal") as HTMLElement | null;
+    if (text) {
+      text.style.color = mode === "light" ? "black" : "green";
+    }
+
+    document.body.style.color = textColor;
     localStorage.setItem("mode", mode);
   }, [mode]);
 
