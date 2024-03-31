@@ -59,7 +59,9 @@ const FilterSidebar = () => {
         </div>
         <div className=" flex gap-x-4 items-center">
           <h1
-            className={` cursor-pointer duration-500 font-bold text-3xl border-[1px] border-white inline py-1 px-4 hover:border-primaryColor rounded-full`}
+            className={` cursor-pointer duration-500 font-bold text-3xl border-[1px] border-white inline py-1 px-4 hover:border-primaryColor rounded-full ${
+              open && "rotate-[360deg]"
+            }`}
           >
             F
           </h1>
